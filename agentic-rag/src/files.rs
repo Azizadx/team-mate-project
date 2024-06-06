@@ -1,3 +1,6 @@
+use anyhow::Result;
+use std::path::PathBuf;
+
 pub struct File {
     pub path: String,
     pub contents: String,
@@ -8,7 +11,7 @@ impl File {
     pub fn new(path: PathBuf) -> Result<Self> {
         let contents = std::fs::read_to_string(&path)?;
 
-        let path_as_str = format!("{}", path.display());
+        let path = format!("{}", path.display());
 
         let rows = contents
             .lines()
@@ -16,9 +19,9 @@ impl File {
             .collect::<Vec<String>>();
 
         Ok(Self {
-            path: path_as_str,
+            path,
             contents,
-            rows
+            rows,
         })
     }
 }
