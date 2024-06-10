@@ -17,10 +17,6 @@ pub mod files;
 use files::File;
 use shuttle_runtime::SecretStore;
 
-async fn hello_world() -> &'static str {
-    "Hello, world!"
-}
-
 #[derive(Deserialize)]
 pub struct Prompt {
     prompt: String,
@@ -41,6 +37,10 @@ async fn prompt(State(state): State<AppState>, Json(json): Json<Prompt>) -> impl
     }
 }
 
+async fn hello_world() -> &'static str {
+    "Hello, world!"
+}
+
 #[shuttle_runtime::main]
 async fn main(
     #[shuttle_qdrant::Qdrant(
@@ -54,7 +54,7 @@ async fn main(
         set_var(x.0, x.1);
     });
 
-    let file = File::new("test.csv".into())?;
+    let file = File::new("../data/test.csv".into())?;
 
     let state = AppState {
         agent: MyAgent::new(qdrant_client),
